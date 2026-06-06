@@ -1,33 +1,33 @@
-import Database from "better-sqlite3";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
+import Database from "better-sqlite3";
 
 export interface ChunkRow {
-  id: number;
-  file: string;
-  start_line: number;
-  end_line: number;
-  text: string;
-  vector: string;
+	id: number;
+	file: string;
+	start_line: number;
+	end_line: number;
+	text: string;
+	vector: string;
 }
 
 export interface FileRow {
-  file: string;
-  hash: string;
-  size: number;
-  mtime_ms: number;
-  indexed_at: string;
+	file: string;
+	hash: string;
+	size: number;
+	mtime_ms: number;
+	indexed_at: string;
 }
 
 export function dbPathFor(root: string): string {
-  return path.join(root, ".pi", "semantic-grep.sqlite");
+	return path.join(root, ".pi", "semantic-grep.sqlite");
 }
 
 export function openDb(root: string): Database.Database {
-  mkdirSync(path.join(root, ".pi"), { recursive: true });
-  const db = new Database(dbPathFor(root));
-  db.pragma("journal_mode = WAL");
-  db.exec(`
+	mkdirSync(path.join(root, ".pi"), { recursive: true });
+	const db = new Database(dbPathFor(root));
+	db.pragma("journal_mode = WAL");
+	db.exec(`
     create table if not exists meta (key text primary key, value text not null);
     create table if not exists files (
       file text primary key,
@@ -48,17 +48,30 @@ export function openDb(root: string): Database.Database {
     );
     create index if not exists chunks_file_idx on chunks(file);
   `);
-  return db;
+	return db;
 }
 
 export function resetDb(db: Database.Database): void {
-  db.exec("delete from chunks; delete from files; delete from meta;");
+	db.exec("delete from chunks; delete from files; delete from meta;");
 }
 
-export function getMeta(db: Database.Database, key: string): string | undefined {
-  return (db.prepare("select value from meta where key = ?").get(key) as { value: string } | undefined)?.value;
+export function getMeta(
+	db: Database.Database,
+	key: string,
+): string | undefined {
+	return (
+		db.prepare("select value from meta where key = ?").get(key) as
+			| { value: string }
+			| undefined
+	)?.value;
 }
 
-export function setMeta(db: Database.Database, key: string, value: string): void {
-  db.prepare("insert into meta (key, value) values (?, ?) on conflict(key) do update set value = excluded.value").run(key, value);
+export function setMeta(
+	db: Database.Database,
+	key: string,
+	value: string,
+): void {
+	db.prepare(
+		"insert into meta (key, value) values (?, ?) on conflict(key) do update set value = excluded.value",
+	).run(key, value);
 }
