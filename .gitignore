@@ -1,1 +1,12 @@
 node_modules/
+dist/
+
+# pi local state
+.pi/
+
+# core dumps
+core.*
+
+# OS
+.DS_Store
+Thumbs.db
