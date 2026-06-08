@@ -1,7 +1,6 @@
 import crypto from "node:crypto";
-import type Database from "better-sqlite3";
 import type { SemanticGrepConfig } from "./config.js";
-import { type FileRow, getMeta, resetDb, setMeta } from "./db.js";
+import { type Database, type FileRow, getMeta, resetDb, setMeta } from "./db.js";
 import { embed } from "./embeddings.js";
 import { chunkFile, listIndexableFiles, readFileSnapshot } from "./files.js";
 
@@ -36,7 +35,7 @@ function indexFingerprint(config: SemanticGrepConfig): string {
 }
 
 async function indexOneFile(
-	db: Database.Database,
+	db: Database,
 	root: string,
 	file: string,
 	snapshot: NonNullable<ReturnType<typeof readFileSnapshot>>,
@@ -77,11 +76,12 @@ async function indexOneFile(
 			JSON.stringify(vector),
 		);
 	}
+	db.save();
 	return chunks.length;
 }
 
 export async function syncIndex(
-	db: Database.Database,
+	db: Database,
 	root: string,
 	config: SemanticGrepConfig,
 	forceFullRebuild = false,
@@ -137,6 +137,7 @@ export async function syncIndex(
 	setMeta(db, "index_fingerprint", fingerprint);
 	setMeta(db, "indexed_at", new Date().toISOString());
 	setMeta(db, "embedding_model", config.embeddings.model);
+	db.save();
 
 	return {
 		files: files.length,
@@ -150,7 +151,7 @@ export async function syncIndex(
 }
 
 export async function buildIndex(
-	db: Database.Database,
+	db: Database,
 	root: string,
 	config: SemanticGrepConfig,
 	signal?: AbortSignal,

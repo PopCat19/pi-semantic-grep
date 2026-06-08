@@ -1,6 +1,5 @@
-import type Database from "better-sqlite3";
 import type { SemanticGrepConfig } from "./config.js";
-import type { ChunkRow } from "./db.js";
+import { type Database, type ChunkRow } from "./db.js";
 import { cosine, embed } from "./embeddings.js";
 
 export interface SearchMatch {
@@ -12,7 +11,7 @@ export interface SearchMatch {
 }
 
 export async function searchDb(
-	db: Database.Database,
+	db: Database,
 	query: string,
 	topK: number,
 	config: SemanticGrepConfig,

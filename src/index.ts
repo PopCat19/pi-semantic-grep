@@ -127,7 +127,7 @@ export default function semanticGrepExtension(pi: ExtensionAPI) {
 				Math.max(1, params.top_k ?? config.search.defaultTopK),
 				config.search.maxTopK,
 			);
-			const db = openDb(root);
+			const db = await openDb(root);
 			try {
 				const matches = await searchDb(db, params.query, topK, config, signal);
 				return {
@@ -164,7 +164,7 @@ export default function semanticGrepExtension(pi: ExtensionAPI) {
 		if (config.autoIndex.mode === "missing" && existsSync(dbFile)) return;
 		const forceFullRebuild = config.autoIndex.mode === "always";
 
-		const db = openDb(root);
+		const db = await openDb(root);
 		ctx.ui.setStatus("semantic-grep", "indexing…");
 		try {
 			const stats = await syncIndex(
