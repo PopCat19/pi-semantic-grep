@@ -2,6 +2,7 @@ import type { SemanticGrepConfig } from "./config.js";
 
 interface EmbeddingResponse {
 	data?: Array<{ embedding?: number[] }>;
+	error?: { message?: string; code?: number };
 }
 
 export async function embed(
@@ -25,6 +26,11 @@ export async function embed(
 	if (!res.ok)
 		throw new Error(`embedding endpoint ${res.status}: ${await res.text()}`);
 	const json = (await res.json()) as EmbeddingResponse;
+	if (json.error) {
+		throw new Error(
+			`embedding endpoint error: ${json.error.message ?? JSON.stringify(json.error)}`,
+		);
+	}
 	const vector = json.data?.[0]?.embedding;
 	if (!Array.isArray(vector) || vector.length === 0)
 		throw new Error("embedding response did not contain data[0].embedding");
