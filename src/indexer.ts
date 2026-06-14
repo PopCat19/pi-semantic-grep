@@ -1,6 +1,12 @@
 import crypto from "node:crypto";
 import type { SemanticGrepConfig } from "./config.js";
-import { type Database, type FileRow, getMeta, resetDb, setMeta } from "./db.js";
+import {
+	type Database,
+	type FileRow,
+	getMeta,
+	resetDb,
+	setMeta,
+} from "./db.js";
 import { embed } from "./embeddings.js";
 import { chunkFile, listIndexableFiles, readFileSnapshot } from "./files.js";
 

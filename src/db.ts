@@ -153,12 +153,10 @@ export function resetDb(db: Database): void {
 	db.exec("delete from chunks; delete from files; delete from meta;");
 }
 
-export function getMeta(
-	db: Database,
-	key: string,
-): string | undefined {
-	return db.prepare("select value from meta where key = ?").get(key)
-		?.value as string | undefined;
+export function getMeta(db: Database, key: string): string | undefined {
+	return db.prepare("select value from meta where key = ?").get(key)?.value as
+		| string
+		| undefined;
 }
 
 export function setMeta(db: Database, key: string, value: string): void {

@@ -39,8 +39,9 @@
 	"scripts": {
 		"check": "bun run lint && bun run typecheck",
 		"prepack": "bun run check",
-		"typecheck": "tsgo --noEmit",
-		"lint": "biome check .",
+		"typecheck": "tsc --noEmit",
+		"lint": "bash ./scripts/lint.sh",
+		"lint:fix": "bash ./scripts/lint-fix.sh",
 		"format": "biome check --write ."
 	},
 	"dependencies": {
@@ -50,7 +51,11 @@
 	"devDependencies": {
 		"@types/node": "^24.0.0",
 		"typescript": "^5.8.3",
-		"@biomejs/biome": "^2.4.16"
+		"@biomejs/biome": "^2.4.16",
+		"@eslint/js": "^10.0.1",
+		"eslint": "^10.1.0",
+		"eslint-plugin-security": "^4.0.1",
+		"typescript-eslint": "^8.57.1"
 	},
 	"peerDependencies": {
 		"@earendil-works/pi-coding-agent": "^0.78.0",

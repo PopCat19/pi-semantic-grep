@@ -201,5 +201,7 @@ export function ensureConfig(projectRoot?: string): SemanticGrepConfig {
 		return resolveEnvVars(globalConfig);
 	}
 
-	return resolveEnvVars(deepMerge(globalConfig, readConfigFile(projectConfigPath)));
+	return resolveEnvVars(
+		deepMerge(globalConfig, readConfigFile(projectConfigPath)),
+	);
 }

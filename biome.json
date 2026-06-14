@@ -19,7 +19,40 @@
 		"indentStyle": "tab"
 	},
 	"linter": {
-		"enabled": false
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noConstantCondition": "off",
+				"noUnusedVariables": "warn",
+				"noUnusedImports": "warn",
+				"noUndeclaredVariables": "off",
+				"useParseIntRadix": "warn"
+			},
+			"suspicious": {
+				"noExplicitAny": "warn",
+				"noDoubleEquals": "warn",
+				"noBitwiseOperators": "off",
+				"noGlobalIsNan": "warn",
+				"noEmptyBlockStatements": "warn",
+				"noTemplateCurlyInString": "warn",
+				"noEvolvingTypes": "warn",
+				"noImplicitAnyLet": "warn",
+				"useIterableCallbackReturn": "warn"
+			},
+			"complexity": {
+				"useLiteralKeys": "warn",
+				"noBannedTypes": "warn",
+				"noUselessTernary": "warn",
+				"noStaticOnlyClass": "warn"
+			},
+			"style": {
+				"noNonNullAssertion": "off",
+				"useTemplate": "warn",
+				"useImportType": "off",
+				"useExponentiationOperator": "warn"
+			}
+		}
 	},
 	"javascript": {
 		"formatter": {

@@ -1,5 +1,5 @@
 import type { SemanticGrepConfig } from "./config.js";
-import { type Database, type ChunkRow } from "./db.js";
+import { type ChunkRow, type Database } from "./db.js";
 import { cosine, embed } from "./embeddings.js";
 
 export interface SearchMatch {
