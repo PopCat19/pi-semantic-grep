@@ -163,9 +163,9 @@ At session start, the extension syncs the index automatically.
 
 `autoIndex.mode` options:
 
-- `incremental` — default; only embed new or changed files and remove deleted files
-- `missing` — build only if the SQLite index does not exist
-- `always` — force a full rebuild at every session start
+- `incremental`, default; only embed new or changed files and remove deleted files
+- `missing`, build only if the SQLite index does not exist
+- `always`, force a full rebuild at every session start
 
 A full rebuild is also triggered when indexing settings change, such as embedding model, chunk size, included extensions, excluded directories, max chunk size, or schema version. Oversized chunks are split by default instead of failing the whole indexing run; tune `indexing.maxChunkChars` for your embedder.
 
